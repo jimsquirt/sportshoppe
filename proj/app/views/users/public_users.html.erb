@@ -1,0 +1,35 @@
+	<div class="container-fluid">
+      <div class="row-fluid">
+		<%= render :partial => "shared/sidebar" %>
+
+		<div class = "span9">
+			<% flash.each do |name, msg| %>
+		    	<%= content_tag :div, msg, :id => "flash#{name}", :class => "alert" %>
+		    <% end %>
+			<h3>Shop List</h3>
+			<%= form_tag users_public_users_path, :method => 'get' , :id => "products_search", :class => "pull-right", :style => "margin-bottom:10px" do %>
+			  <%= hidden_field_tag :direction, params[:direction] %>
+			  <%= hidden_field_tag :sort, params[:sort] %>
+			  <%= text_field_tag :search, params[:search], :class =>"input-inline-level", :placeholder =>"Search here..."  %>
+			  <%= submit_tag "Search", :name => nil, :class =>"btn btn-small btn-success", :style => "margin-top:-10px" %>
+			<% end %>
+		<table class ="table table-striped table-bordered table-condensed">
+		<tr>
+			<th>Email</th>
+			<th>Contact number</th>
+			<th>Description</th>
+			<th>Address</th>
+		</tr>
+		<% @users.each do |t| %>
+			<tr>
+				<td><%=link_to t.email, t%></td>
+				<td><%=t.contact_number%></td>
+				<td><%=t.description%></td>
+				<td><%=t.address%></td>
+			</tr>
+	
+		<% end %>
+		</table>
+</div>
+</div>
+</div>

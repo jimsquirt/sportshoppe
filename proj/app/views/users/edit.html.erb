@@ -1,0 +1,38 @@
+<% if current_user %>
+	<div class="container-fluid">
+      <div class="row-fluid">
+		<%= render :partial => "shared/sidebar" %>
+
+		<div class ="span9">
+			<%if current_user.id == @user.id%>
+				<%= form_for(@user, :html => { :class => "form-signin", :style => "margin-top:50px"} ) do |f| %>
+					<% if @user.errors.any? %>
+						<div class="error_messages">
+							<h4>Form is invalid</h4>
+							<ul>
+								<% for message in @user.errors.full_messages %>
+									<li><%= message %></li>
+								<% end %>
+							</ul>
+						</div>
+					<% end %>
+
+				<h2 class="form-signin-heading">Edit</h2>
+					
+				<%= f.text_field :email , :class =>"input-block-level", :placeholder =>"Email address" %>
+
+				<%= f.text_field :contact_number , :class =>"input-block-level", :placeholder =>"Contact number" %>
+
+				<%= f.text_area :address , :class =>"input-block-level", :placeholder =>"Address", :rows => "5" %>
+
+				<%= f.text_area :description , :class =>"input-block-level", :placeholder =>"Description", :rows => "5" %>
+
+				<%= f.submit "Save",  :class =>"btn btn-large btn-primary"%>
+				<%end%>
+			<%end%>
+		</div>
+	  </div>
+    </div>
+<%end%>	
+
+	

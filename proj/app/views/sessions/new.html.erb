@@ -1,0 +1,20 @@
+<div class="container">
+	<% if current_user %>
+		<%= image_tag "1.jpg", :style => "margin-left: auto; margin-right: auto; display:block" %>
+	<% else %>
+		<%= image_tag "1.jpg" %>
+		<%= form_tag sessions_path, :class => "form-signin pull-right", :style => "margin-top:50px" do %>
+			<% flash.each do |name, msg| %>
+		    	<%= content_tag :div, msg, :id => "flash#{name}", :class => "alert" %>
+		    <% end %>
+
+			<h2 class="form-signin-heading">Log-in</h2>
+				
+			<%= text_field_tag :email, params[:email] , :class =>"input-block-level", :placeholder =>"Email address" %>
+
+			<%= password_field_tag :password, params[:password] , :class =>"input-block-level", :placeholder =>"Password" %>
+
+			<%= submit_tag "Log-in",  :class =>"btn btn-large btn-primary"%>
+		<% end %>               
+	<% end %>
+</div>

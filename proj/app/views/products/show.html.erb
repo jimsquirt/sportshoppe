@@ -1,0 +1,80 @@
+
+	<div class="container-fluid">
+      <div class="row-fluid">
+		<%= render :partial => "shared/sidebar" %>
+
+		<div class = "span9">
+
+		<% flash.each do |name, msg| %>
+	    	<%= content_tag :div, msg, :id => "flash#{name}", :class => "alert" %>
+	    <% end %>
+
+	    <% if current_user %>
+		    <%if @like.persisted? %>
+		    	<%# like = Like.where(:product_id => @product.id, :user_id => current_user.id)%>
+		    	<%= link_to 'Unlike', product_like_path(@product.id, @like.id), :method => :delete, :msg => { confirm: 'Are you sure?' }, :class => "btn btn-small btn-success pull-left", :style =>"margin-bottom:10px" %><%= @num_likes %> likes	 	
+		    <%else%>
+				<%= form_for([@product, @like], :html => { :class => "pull-left"}) do |f| %>
+				  	<%= f.hidden_field :user_id, :value => current_user.id %>
+				    <%= f.hidden_field :product_id, :value => @product.id %>
+				    <%= f.submit "Like", :class => "btn btn-small btn-primary" %>
+				    <%= @num_likes %> likes
+				<% end %>	
+		    <%end%>
+		    <% if current_user.id == @product.user_id %>
+			<%= link_to 'Edit',edit_product_path(@product),  :class =>"btn btn-small btn-primary pull-right" , :style =>"margin-bottom:20px"%>
+			<% end %>
+		<%else%>
+			This product has <%= @num_likes %> likes
+		<% end %>
+		<table class="table table-striped">
+			<tr>
+				<td><b>Product Name</b></td>
+				<td><%= @product.name %></td>
+			</tr>
+			<tr>
+				<td><b>Price</b></td>
+				<td><%= @product.price %></td>
+			</tr>
+			<tr>
+				<td><b>Quality Condition</b></td>
+				<td><%= @product.quality %></td>
+			</tr>
+			<tr>
+				<td><b>Description</b></td>
+				<td><%= @product.description %></td>
+			</tr>
+			<tr>
+				<td><b>Posted by</b></td>
+				<td><%= @product.user.email %></td>
+			</tr>
+		</table>
+		<hr>
+		<h5>COMMENTS</h5>
+		<% @product.comments.each do |c| %>
+		    <% user = User.find(c.user_id) %>
+		    </p><%=c.body %><p>
+		    <% if current_user %>
+		    	<small>(<%=link_to user.email, user %>) <%= time_ago_in_words(c.created_at) %> ago</small>
+		    <% else %>
+		    	<small>(<%=user.email %>) <%= time_ago_in_words(c.created_at) %> ago</small>
+		    <% end %>
+		    <hr>
+		<% end %>
+		<%if current_user%>
+			
+				<%= form_for([@product, @comment]) do |f| %>
+				  <p>
+				  	<%= f.hidden_field :user_id, :value => current_user.id %>
+				    <%= f.text_area :body, :rows => "5" %>
+				  </p>
+				  <p>
+				    <%= f.submit "Add Comment", :class => "btn btn-small btn-primary" %>
+				  </p>
+				
+			<% end %>
+		<% end %>
+		</div>
+	  </div>
+	</div>
+

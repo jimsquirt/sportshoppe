@@ -1,0 +1,30 @@
+<%if current_user.admin%>
+	<div class="container-fluid">
+	  <div class="row-fluid">
+		<%= render :partial => "admin/nav" %>
+		<div class ="span9">
+			<% flash.each do |name, msg| %>
+		    	<%= content_tag :div, msg, :id => "flash#{name}", :class => "alert" %>
+		    <% end %>
+			<table class ="table">
+				<tr>
+					<th>Comment</th>
+					<th>Product</th>
+					<th>From</th>
+					<th>Actions</th>
+				</tr>
+				<%@comments.each do |c|%>
+					<tr>
+						<td><%=c.body%></td>
+						<%p = Product.find(c.product_id)%>
+						<td><%=link_to p.name, p%></td>
+						<%u = User.find(c.user_id)%>
+						<td><%=link_to u.email, u%></td>
+						<td><%= link_to 'delete', product_comment_path(c.product_id, c.id), :method => :delete, :data => { confirm: 'Are you sure?' } %></td>
+					</tr>
+				<%end%>
+			</table>
+		</div>
+	  </div>
+	 </div>
+<%end%>

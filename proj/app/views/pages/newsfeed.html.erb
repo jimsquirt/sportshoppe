@@ -1,0 +1,68 @@
+<div class="container-fluid">
+  <div class="row-fluid">
+  	<%if current_user%>
+	<%= render :partial => "shared/sidebar" %>
+	<%end%>
+	<div class ="span9">
+		<%if current_user%>
+			<%if current_user.contact_number.nil?%>
+				<div class ="alert" style="margin:00px">Please update contact number.</div>
+			<%end%>
+			<%if current_user.address.nil?%>
+				<div class ="alert" style="margin:00px">Please update address.</div>
+			<%end%>
+			<%if current_user.description.nil?%>
+				<div class ="alert" style="margin:00px">Please update description.</div>
+			<%end%>
+			</div>
+		<%end%>
+		<div class ="span4">
+			<table class = "table">
+			<tr><th>Recent Activities</th></tr>
+			<tr>
+				<%@comments.each do |c|%>
+				<tr><td>
+					<%user = User.find(c.user_id)%>
+					<%=link_to user.email, user%> said 
+					"<%=c.body%>" on
+					<%product = Product.find(c.product_id)%>
+					<%=link_to product.name, product%>
+				</td></tr>
+				<%end%>
+			</tr>
+			</table>
+		</div>
+		<div class ="span4">
+			<table class = "table">
+			<tr><th>New Products</th></tr>
+				<%@products.each do |p|%>
+				<tr><td>
+					<%=link_to p.name, p%> was posted
+					<%=time_ago_in_words(p.created_at)%> ago
+				</td></tr>
+				<%end%>
+			
+			</table>
+		</div>
+		<div class ="span4">
+			<table class = "table">
+			<tr><th>Most Popular</th></tr>
+			<tr>
+				<%@popular.each do |p|%>
+				<tr><td>
+					<%product = Product.find(p.product_id)%>
+					
+					<%=link_to p.name, product%> has 
+					
+					<%=p.num%> likes
+				</td></tr>
+				<%end%>
+			</tr>
+			</table>
+		</div>
+
+	</div>
+  </div>
+
+</div>
+

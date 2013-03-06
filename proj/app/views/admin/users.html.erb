@@ -1,0 +1,32 @@
+<%if current_user.admin%>
+	<div class="container-fluid">
+	  <div class="row-fluid">
+		<%= render :partial => "admin/nav" %>
+		<div class ="span9">
+			<% flash.each do |name, msg| %>
+		    	<%= content_tag :div, msg, :id => "flash#{name}", :class => "alert" %>
+		    <% end %>
+			<table class ="table">
+				<tr>
+					<th>Email</th>
+					<th>Contact Number</th>
+					<th>Address</th>
+					<th>Actions</th>
+				</tr>
+				<%@users.each do |u|%>
+					<tr>
+						<td><%=link_to u.email, u%></td>
+						<td><%=u.contact_number%></td>
+						<td><%=u.address%></td>
+						<%if u.admin%>
+							<td>Administrator</td>
+						<%else%>
+							<td><%=link_to "Delete", u, method: :delete,  data: { confirm: 'Are you sure?' }%> | <%=link_to "Promote", admin_promote_path(:id =>u.id), data: {confirm: 'Are you sure?'}%></td>
+						<%end%>
+					</tr>
+				<%end%>
+			</table>
+		</div>
+	  </div>
+	 </div>
+<%end%>

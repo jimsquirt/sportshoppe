@@ -1,0 +1,30 @@
+<%if current_user.admin%>
+	<div class="container-fluid">
+	  <div class="row-fluid">
+		<%= render :partial => "admin/nav" %>
+		<div class ="span9">
+			<% flash.each do |name, msg| %>
+		    	<%= content_tag :div, msg, :id => "flash#{name}", :class => "alert" %>
+		    <% end %>
+			<table class ="table">
+				<tr>
+					<th>Message</th>
+					<th>Sent to</th>
+					<th>From</th>
+					<th>Actions</th>
+				</tr>
+				<%@messages.each do |m|%>
+					<tr>
+						<td><%=m.content%></td>
+						<%sent = User.find(m.sendto_id)%>
+						<td><%=link_to sent.email, sent%></td>
+						<%from = User.find(m.sender_id)%>
+						<td><%=link_to from.email, from%></td>
+						<td><%= link_to 'delete', user_message_path(m.sender_id, m.id), :method => :delete, :data => { confirm: 'Are you sure?' } %></td>
+					</tr>
+				<%end%>
+			</table>
+		</div>
+	  </div>
+	 </div>
+<%end%>

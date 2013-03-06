@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  content: MyText
+  sender_id: 1
+  sendto_id: 1
+  inbox: false
+  outbox: false
+
+two:
+  content: MyText
+  sender_id: 1
+  sendto_id: 1
+  inbox: false
+  outbox: false
